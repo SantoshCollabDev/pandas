@@ -1,0 +1,235 @@
+>>> df.head()
+  country_code  Gold Medal  Silver Medal  Bronze Medal  Total
+0          USA          40            44            42    126
+1          CHN          39            27            24     90
+2          JPN          20            12            13     45
+3          AUS          18            19            16     53
+4          FRA          16            26            22     64
+
+
+>>> df.tail()
+   country_code  Gold Medal  Silver Medal  Bronze Medal  Total
+87          PER           0             0             1      1
+88          QAT           0             0             1      1
+89          SGP           0             0             1      1
+90          SVK           0             0             1      1
+91          ZAM           0             0             1      1
+
+
+>>> df.sort_values(by="Bronze Medal")
+   country_code  Gold Medal  Silver Medal  Bronze Medal  Total
+55          BOT           1             1             0      2
+58          UGA           1             1             0      2
+57          LCA           1             1             0      2
+62          DMA           1             0             0      1
+63          PAK           1             0             0      1
+..          ...         ...           ...           ...    ...
+3           AUS          18            19            16     53
+4           FRA          16            26            22     64
+1           CHN          39            27            24     90
+6           GBR          14            21            29     64
+0           USA          40            44            42    126
+
+[92 rows x 5 columns]
+
+
+>>> df.sort_values(by="Bronze Medal", ascending=False)
+   country_code  Gold Medal  Silver Medal  Bronze Medal  Total
+0           USA          40            44            42    126
+6           GBR          14            21            29     64
+1           CHN          39            27            24     90
+4           FRA          16            26            22     64
+3           AUS          18            19            16     53
+..          ...         ...           ...           ...    ...
+62          DMA           1             0             0      1
+75          FIJ           0             1             0      1
+77          MGL           0             1             0      1
+78          PAN           0             1             0      1
+76          JOR           0             1             0      1
+
+[92 rows x 5 columns]
+
+
+>>> df.sort_values(by="Bronze Medal", ascending=False).head(3)
+  country_code  Gold Medal  Silver Medal  Bronze Medal  Total
+0          USA          40            44            42    126
+6          GBR          14            21            29     64
+1          CHN          39            27            24     90
+
+
+>>> df.info()
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 92 entries, 0 to 91
+Data columns (total 5 columns):
+ #   Column        Non-Null Count  Dtype
+---  ------        --------------  -----
+ 0   country_code  92 non-null     object
+ 1   Gold Medal    92 non-null     int64
+ 2   Silver Medal  92 non-null     int64
+ 3   Bronze Medal  92 non-null     int64
+ 4   Total         92 non-null     int64
+dtypes: int64(4), object(1)
+memory usage: 3.7+ KB
+
+
+
+********
+To refer to a specific column
+********
+Note: Accessing a single column in a data.frame returns a series, which includes the values from that column and the corresponding index numbers
+
+>>> df['country_code']
+0     USA
+1     CHN
+2     JPN
+3     AUS
+4     FRA
+     ...
+87    PER
+88    QAT
+89    SGP
+90    SVK
+91    ZAM
+Name: country_code, Length: 92, dtype: object
+
+********
+if you want country along with their total won medals
+********
+
+>>> df[["country_code","Total"]]
+   country_code  Total
+0           USA    126
+1           CHN     90
+2           JPN     45
+3           AUS     53
+4           FRA     64
+..          ...    ...
+87          PER      1
+88          QAT      1
+89          SGP      1
+90          SVK      1
+91          ZAM      1
+
+[92 rows x 2 columns]
+
+********
+To copy the above resultant data frame to new data frame and work with that
+********
+
+>>> new_df = df[["country_code","Total"]]
+>>> new_df
+   country_code  Total
+0           USA    126
+1           CHN     90
+2           JPN     45
+3           AUS     53
+4           FRA     64
+..          ...    ...
+87          PER      1
+88          QAT      1
+89          SGP      1
+90          SVK      1
+91          ZAM      1
+
+[92 rows x 2 columns]
+
+
+
+Challenge 1: Countries with exactly 1 gold medal
+=================================================
+
+>>> one_gold_df = df[df['Gold Medal'] == 1]
+>>> one_gold_df
+   country_code  Gold Medal  Silver Medal  Bronze Medal  Total
+40          POL           1             4             5     10
+41          ISR           1             4             1      6
+42          KAZ           1             3             3      7
+43          JAM           1             3             2      6
+44          RSA           1             3             2      6
+45          THA           1             3             2      6
+46          AIN           1             3             1      5
+47          ETH           1             3             0      4
+48          SUI           1             2             5      8
+49          ECU           1             2             2      5
+50          POR           1             2             1      4
+51          GRE           1             1             6      8
+52          ARG           1             1             1      3
+53          EGY           1             1             1      3
+54          TUN           1             1             1      3
+55          BOT           1             1             0      2
+56          CHI           1             1             0      2
+57          LCA           1             1             0      2
+58          UGA           1             1             0      2
+59          DOM           1             0             2      3
+60          GUA           1             0             1      2
+61          MAR           1             0             1      2
+62          DMA           1             0             0      1
+63          PAK           1             0             0      1
+
+
+Challenge 2: Countries that starts with "U"
+=============================================
+
+Note: Since the contry_code column is of the object, to perform string operations, it should be first converted to string using .str
+
+>>> only_country_U = df[df["country_code"].str.startswith("U")]
+>>> only_country_U
+   country_code  Gold Medal  Silver Medal  Bronze Medal  Total
+0           USA          40            44            42    126
+12          UZB           8             2             3     13
+21          UKR           3             5             4     12
+58          UGA           1             1             0      2
+
+
+
+Challenge 3: Countries with > 25 Medals
+=========================================
+
+>>> morethan_25_medals = df[df['Total'] > 25]
+>>> morethan_25_medals
+   country_code  Gold Medal  Silver Medal  Bronze Medal  Total
+0           USA          40            44            42    126
+1           CHN          39            27            24     90
+2           JPN          20            12            13     45
+3           AUS          18            19            16     53
+4           FRA          16            26            22     64
+5           NED          15             7            12     34
+6           GBR          14            21            29     64
+7           KOR          13             9            10     32
+8           ITA          12            13            13     38
+9           GER          11            13             8     32
+11          CAN           9             7            11     27
+
+
+
+Challenge 4: Countries that starts with "U" & won > 25 Medals
+=============================================================
+
+>>> u_cntry_GT25_medals = df[ ( df['country_code'].str.startswith('U') ) & ( df['Total'] > 25 ) ]
+>>> u_cntry_GT25_medals
+  country_code  Gold Medal  Silver Medal  Bronze Medal  Total
+0          USA          40            44            42    126
+
+
+Group-By:
+=========
+
+df = pd.read_csv('data\schedules.csv')
+
+Group-By-Day:
+=============
+
+grouped_by_day = df.groupby("day")
+for group_name, df in grouped_by_day:
+    print(group_name)
+    print(df)
+
+Group-By-Day & Status:
+======================
+
+grouped_by_day = df.groupby(["day","status"])
+for group_name,df in grouped_by_day:
+    print(group_name)
+
+
+
